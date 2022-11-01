@@ -29,6 +29,21 @@
     }
      } 
     ],
+     "subPackages": [
+        {
+          "root": "subpkg",
+          "pages": [{
+                    "path" : "goods_details/goods_details",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
+        }
+      ],
   "globalStyle": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "uni-shop",
@@ -38,7 +53,6 @@
       "background": "#efeff4"
     }
   },
-  // 注意tabBar的位置
   "tabBar": {
     "selectedColor": "#C00000",
     "list": [{
