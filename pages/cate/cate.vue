@@ -8,9 +8,15 @@
        </block>
      </scroll-view>
       <!-- 右侧的滚动视图区域 -->
-      <scroll-view class="right-scroll-view" scroll-y :style="{height: wh + 'px'}">
+      <scroll-view class="right-scroll-view" scroll-y :style="{height: wh + 'px'}" :scroll-top="scrollTop">
         <view class="cate-lv2" v-for="(item2, i2) in cateLevel2" :key="i2">
           <view class="cate-lv2-title">/ {{item2.cat_name}} /</view>
+          <view class="cate-lv3" v-for = "(item3,i3) in item2.children" :key="i3" @click="gotoGoodsList(item3)">
+             <!-- 图片 -->
+            <image :src="item3.cat_icon"></image>
+            <!-- 文本 -->
+            <text>{{item3.cat_name}}</text>
+          </view>
         </view>
       </scroll-view>
     </view>
@@ -26,7 +32,10 @@
         wh:0,
         active:0,
         cateList:[],
-        cateLevel2:[]
+        cateLevel2:[],
+        // 滚动条距离顶部的距离
+        scrollTop: 0
+        
       }
     },
     onLoad(){
@@ -47,11 +56,20 @@
         this.cateLevel2 =  res.message[0].children
       },
       // 选中项改变的事件处理函数
-        activeChanged(i) {
+      activeChanged(i) {
           this.active = i
           // 为二级分类列表重新赋值
             this.cateLevel2 = this.cateList[i].children
+            // 重置滚轮位置 
+            this.scrollTop = this.scrollTop ? 0 : 1
+        },
+        // 点击三级分类项跳转到商品列表页面
+        gotoGoodsList(item3) {
+          uni.navigateTo({
+            url: '/subpkg/goods_list/goods_list?cid=' + item3.cat_id
+          })
         }
+        
       
     }
   }
@@ -96,5 +114,28 @@
   text-align: center;
   padding: 15px 0;
 }
+
+.cate-lv3-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  .cate-lv3-item {
+    width: 33.33%;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    image {
+      width: 60px;
+      height: 60px;
+    }
+
+    text {
+      font-size: 12px;
+    }
+  }
+}
+
 }
 </style>
