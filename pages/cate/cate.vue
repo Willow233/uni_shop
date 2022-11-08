@@ -1,5 +1,7 @@
 <template>
   <view>
+    <!-- 自定义搜索组件 -->
+    <my-search @click="gotoSearch"></my-search>
     <view class="scroll-view-container">
       <!-- 左侧的滚动视图区域 -->
      <scroll-view class="left-scroll-view" scroll-y :style="{height: wh + 'px'}">
@@ -11,12 +13,15 @@
       <scroll-view class="right-scroll-view" scroll-y :style="{height: wh + 'px'}" :scroll-top="scrollTop">
         <view class="cate-lv2" v-for="(item2, i2) in cateLevel2" :key="i2">
           <view class="cate-lv2-title">/ {{item2.cat_name}} /</view>
-          <view class="cate-lv3" v-for = "(item3,i3) in item2.children" :key="i3" @click="gotoGoodsList(item3)">
-             <!-- 图片 -->
-            <image :src="item3.cat_icon"></image>
-            <!-- 文本 -->
-            <text>{{item3.cat_name}}</text>
+          <view class="cate-lv3-list">
+            <view class="cate-lv3-item" v-for = "(item3,i3) in item2.children" :key="i3" @click="gotoGoodsList(item3)">
+               <!-- 图片 -->
+              <image :src="item3.cat_icon"></image>
+              <!-- 文本 -->
+              <text>{{item3.cat_name}}</text>
+            </view>
           </view>
+          
         </view>
       </scroll-view>
     </view>
@@ -47,7 +52,7 @@
         // 获取当前系统信息
         const sysInfo = uni.getSystemInfoSync()
         // 为wh窗口可用高度动态赋值
-        this.wh = sysInfo.windowHeight
+        this.wh = sysInfo.windowHeight - 50
       },
       async getCateList(){
         const res = await getCateList()
@@ -68,7 +73,13 @@
           uni.navigateTo({
             url: '/subpkg/goods_list/goods_list?cid=' + item3.cat_id
           })
-        }
+        },
+        // 跳转到分包中的搜索页面
+        gotoSearch() {
+             uni.navigateTo({
+               url: '/subpkg/search/search'
+             })
+           }
         
       
     }

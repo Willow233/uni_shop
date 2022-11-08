@@ -34,7 +34,7 @@ $http.afterRequest = function (options) {
 const baseUrl = 'https://api-hmugo-web.itheima.net'
 // const baseUrl = 'https://www.uinav.com'
 
-export default ({url='',data={},method='GET',...others}={})=>{
+export default ({url='',data={},method='GET',...others})=>{
   uni.showLoading({
     title: '数据加载中...',
   })
