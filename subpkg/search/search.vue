@@ -17,11 +17,11 @@
     <!-- 标题区域 -->
     <view class="history-title">
       <text>搜索历史</text>
-      <uni-icons type="trash" size="17"></uni-icons>
+      <uni-icons type="trash" size="17" @click="clearHistory"></uni-icons>
     </view>
     <!-- 历史记录列表区域 -->
     <view class="history-list" >
-      <uni-tag :text="item" v-for="(item, i) in historyList" :key="i"></uni-tag>
+      <uni-tag @click="gotoGoodsList(item)" :text="item" v-for="(item, i) in historyList" :key="i"></uni-tag>
     </view>
   </view>
   
@@ -43,6 +43,9 @@
             historyList:['家电','小米','牛奶']
       };
     },
+    onLoad() {
+      this.historyList = JSON.parse(uni.getStorageSync('kw') || '[]')
+    },
     methods: {
      input(e) {
        // 清除 timer 对应的延时器
@@ -63,18 +66,39 @@
       }
       const res = await getSearchList({ query: this.kw })
       this.searchResults = res.message
-      // 存储不重复的历史记录值
-      if(!this.historyList.some((element)=> element === this.kw)){
-        this.historyList.push(this.kw)
+      this.saveSearchHistory()
+      },
+      // 存储历史记录
+      saveSearchHistory(){
+      // 存储不重复的历史记录值 some方法
+        if(!this.historyList.some((element)=> element === this.kw)){
+          this.historyList.push(this.kw)
+      // set对象 存储任何类型的唯一值
+      // const set = new Set(this.historyList)
+      // set.delete(this.kw)
+      // set.add(this.kw)
+      // this.historyList = Array.from(set)
+      // 调用 uni.setStorageSync(key, value) 将搜索历史记录持久化存储到本地
+        uni.setStorageSync('kw', JSON.stringify(this.historyList))
       }
-      
-     
-      
+     },
+     // 清空搜索历史记录
+     cleanHistory() {
+       // 清空 data 中保存的搜索历史
+       this.historyList = []
+       // 清空本地存储中记录的搜索历史
+       uni.setStorageSync('kw', '[]')
      },
      gotoDetail(goods_id) {
        uni.navigateTo({
          // 指定详情页面的 URL 地址，并传递 goods_id 参数
          url: '/subpkg/goods_detail/goods_detail?goods_id=' + goods_id
+       })
+     },
+     // 点击跳转到商品列表页面
+     gotoGoodsList(kw) {
+       uni.navigateTo({
+         url: '/subpkg/goods_list/goods_list?query=' + kw
        })
      }
      }
