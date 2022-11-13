@@ -10,9 +10,7 @@
 </template>
 
 <script>
-  import {
-    getGoodsList
-  } from '@/api/goods.js'
+  import {getGoodsList} from '@/api/goods.js'
   export default {
     data() {
       return {

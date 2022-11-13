@@ -6,3 +6,10 @@ export function getGoodsList(data) {
    data
  })
  }
+ 
+ export function getGoodsDetail(data) {
+  return request({
+    url:'/api/public/v1/goods/detail',
+    data
+  })
+  }
