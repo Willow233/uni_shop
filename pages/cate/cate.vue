@@ -30,6 +30,8 @@
 
 <script>
   import {getCateList} from '@/api/cate.js'
+  import badgeMix from '@/mixins/tabbar-badge.js'
+
   export default {
     data() {
       return {
@@ -80,9 +82,8 @@
                url: '/subpkg/search/search'
              })
            }
-        
-      
-    }
+    },
+    mixins: [badgeMix]
   }
 </script>
 

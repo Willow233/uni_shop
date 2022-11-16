@@ -22,7 +22,7 @@
         </view>
       </view>
       <!-- 运费 -->
-      <view class="yf">快递：免运费</view>
+      <view class="yf">快递：免运费 -- {{cart.length}} </view>
     </view>
     <!-- 商品详情信息 -->
     <rich-text :nodes="goods_info.goods_introduce"></rich-text>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+  import { mapState,mapMutations,mapGetters } from 'vuex'
   import {getGoodsDetail} from '@/api/goods.js'
   export default {
     data() {
@@ -75,6 +76,7 @@
         this.getGoodsDetail(goods_id)
     },
     methods:{
+      ...mapMutations('cart',['addToCart']),
       async getGoodsDetail(id) {
         const res = await getGoodsDetail({goods_id:id})
         // 使用字符串的 replace() 方法，将 webp 的后缀名替换为 jpg 的后缀名（解决 .webp 格式图片在 ios 设备上无法正常显示的问题）
@@ -98,6 +100,37 @@
           uni.switchTab({
             url: '/pages/cart/cart'
           })
+        }
+      },
+      // 右侧按钮的点击事件处理函数
+        
+      buttonClick(e){
+        if(e.content.text === '加入购物车'){
+          const goods = {
+            goods_id: this.goods_info.goods_id,       // 商品的Id
+            goods_name: this.goods_info.goods_name,   // 商品的名称
+            goods_price: this.goods_info.goods_price, // 商品的价格
+            goods_count: 1,                           // 商品的数量
+            goods_small_logo: this.goods_info.goods_small_logo, // 商品的图片
+            goods_state: true                         // 商品的勾选状态
+          }
+          // 3. 通过 this 调用映射过来的 addToCart 方法，把商品信息对象存储到购物车中
+            this.addToCart(goods)
+        }
+      }
+    },
+    computed:{
+      ...mapState('cart',['cart']),
+      ...mapGetters('cart',['total'])
+    },
+    watch:{
+      total:{
+        immediate:true, //页面首次加载后立即调用，获取total
+        handler(newVal){
+          const findResult = this.options.find((x)=>x.text === '购物车')
+          if(findResult){
+            findResult.info = newVal
+          }
         }
       }
     }
