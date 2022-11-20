@@ -1,5 +1,7 @@
 <template>
   <view>
+    <!-- 收货地址 -->
+    <my-address></my-address>
     <!-- 购物车商品列表的标题区域 -->
     <view class="cart-title">
       <!-- 左侧的图标 -->
@@ -11,10 +13,10 @@
     <uni-swipe-action>
     <block v-for="(goods, i) in cart" :key="i">
       <!-- uni-swipe-action-item 可以为其子节点提供滑动操作的效果。需要通过 options 属性来指定操作按钮的配置信息 -->
-       <uni-swipe-action-item :options="options" @click="swipeActionClickHandler(goods)">
+       <uni-swipe-action-item :right-options="options" @click="swipeActionClickHandler(goods)">
       <my-goods :goods="goods" :show-radio="true" :show-num="true" @radio-change="radioChangeHandler" @num-change="numberChangeHandler"></my-goods>
-    </block>
     </uni-swipe-action-item>
+    </block>
     </uni-swipe-action>
   </view>
 </template>
@@ -42,7 +44,7 @@
        // 商品的勾选状态发生了变化
          radioChangeHandler(e) {
            this.updateGoodsState(e)
-         }
+         },
       // 商品数量发生变化
        numberChangeHandler(e){
          this.updateGoodsCount(e)

@@ -27,7 +27,7 @@ const mutations = {
       findResult.goods_state = goods.goods_state
       this.commit('cart/saveToStorage')
     }
-  }
+  },
   // 更新商品数量
   updateGoodsCount(state,goods){
     const findResult = state.cart.find(x => x.goods_id === goods.goods_id)
@@ -42,7 +42,7 @@ const mutations = {
     state.cart = state.cart.filter(x => x.goods_id !== goods_id)
     // 持久化存储到本地
     this.commit('m_cart/saveToStorage')
-  }
+  },
   // 将购物车中的数据持久化存储到本地
   saveToStorage(state) {
     uni.setStorageSync('cart', JSON.stringify(state.cart))
