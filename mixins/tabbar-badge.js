@@ -18,4 +18,9 @@ export default {
       })
     },
   },
+  watch:{
+    total(){
+      this.setBadge()
+    }
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="cart-container" v-if="cart.length !== 0">
     <!-- 收货地址 -->
     <my-address></my-address>
     <!-- 购物车商品列表的标题区域 -->
@@ -18,7 +18,14 @@
     </uni-swipe-action-item>
     </block>
     </uni-swipe-action>
+     <!-- 结算区域 -->
+        <my-settle></my-settle>
   </view>
+   <!-- 空白购物车区域 -->
+    <view class="empty-cart" v-else>
+      <image src="/static/cart_empty@2x.png" class="empty-img"></image>
+      <text class="tip-text">购物车竟然是空的 :-(</text>
+    </view>
 </template>
 
 <script>
@@ -59,6 +66,9 @@
 </script>
 
 <style lang="scss">
+  .cart-container {
+    padding-bottom: 50px;
+  }
 .cart-title {
   height: 40px;
   display: flex;
@@ -68,6 +78,23 @@
   border-bottom: 1px solid #efefef;
   .cart-title-text {
     margin-left: 10px;
+  }
+}
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 150px;
+
+  .empty-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .tip-text {
+    font-size: 12px;
+    color: gray;
+    margin-top: 15px;
   }
 }
 </style>

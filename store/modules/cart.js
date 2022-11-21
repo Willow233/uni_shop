@@ -9,7 +9,7 @@ const mutations = {
   addToCart(state, goods) {
   // 根据提交的商品的Id，查询购物车中是否存在这件商品
   // 如果不存在，则 findResult 为 undefined；否则，为查找到的商品信息对象
-  const findResult = state.cart.find((x) => x.goods_id === goods.goods_id)
+  const findResult = state.cart.find(x => x.goods_id === goods.goods_id)
   if (!findResult) {
           // 如果购物车中没有这件商品，则直接 push
           state.cart.push(goods)
@@ -46,7 +46,13 @@ const mutations = {
   // 将购物车中的数据持久化存储到本地
   saveToStorage(state) {
     uni.setStorageSync('cart', JSON.stringify(state.cart))
+  },
+  // 修改购物车选中状态
+  updateAllGoodsState(state,newState){
+    state.cart.forEach(x => x.goods_state === newState)
+    this.commit('cart/saveToStorage')
   }
+  
 }
 
 const actions = {
@@ -60,6 +66,14 @@ const getters ={
         // 循环统计商品的数量，累加到变量 c 中
         state.cart.forEach(goods => c += goods.goods_count)
         return c
+     },
+     // 购物车中勾选的商品数量
+     checkedCount(state){
+       return state.cart.filter(x => x.goods_state).reduce((total,item)=> total += item.goods_counts,0)
+     },
+     // 统计已勾选的商品总价格
+     checkedGoodsAmount(){
+       return state.cart.filter(x => x.goods_state).reduce((total,item)=> total += item.goods_count * item.goods_price,0).toFixed(2)
      }
 }
 
