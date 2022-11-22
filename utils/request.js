@@ -21,8 +21,8 @@ export default ({url='',data={},method='GET',header={},...others})=>{
       header,
       success:(res)=>{
         uni.hideLoading()
-        console.log('请求成功:',res)
-        console.log(res.data.meta.status);
+        // console.log('请求成功:',res)
+        // console.log(res.data.meta.status)
         if(res.data.meta.status !== 200){
           return uni.showToast({
             title:'数据加载失败！',
