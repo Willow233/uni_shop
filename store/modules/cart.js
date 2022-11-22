@@ -41,7 +41,7 @@ const mutations = {
     // 调用数组的 filter 方法进行过滤
     state.cart = state.cart.filter(x => x.goods_id !== goods_id)
     // 持久化存储到本地
-    this.commit('m_cart/saveToStorage')
+    this.commit('cart/saveToStorage')
   },
   // 将购物车中的数据持久化存储到本地
   saveToStorage(state) {
@@ -49,7 +49,7 @@ const mutations = {
   },
   // 修改购物车选中状态
   updateAllGoodsState(state,newState){
-    state.cart.forEach(x => x.goods_state === newState)
+    state.cart.forEach(x => x.goods_state = newState)
     this.commit('cart/saveToStorage')
   }
   
@@ -69,7 +69,7 @@ const getters ={
      },
      // 购物车中勾选的商品数量
      checkedCount(state){
-       return state.cart.filter(x => x.goods_state).reduce((total,item)=> total += item.goods_counts,0)
+       return state.cart.filter(x => x.goods_state).reduce((total,item)=> total += item.goods_count,0)
      },
      // 统计已勾选的商品总价格
      checkedGoodsAmount(){

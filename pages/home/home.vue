@@ -75,7 +75,6 @@
       async getNavList() {
         const result = await getNavList()
         this.navList = result.message
-        console.log(this.navList)
       },
       // nav-item 项被点击时候的事件处理函数
       navClickHandler(item) {
